@@ -56,8 +56,9 @@ export function postMessage(req, res) {
   };
   db.collection("messages")
     .add(newMessage)
-    .then((doc) => {
-      res.send("Sent!" + doc.id);
+    .then(() => {
+      getMessages(req, res);
+      return;
     })
     .catch((err) => {
       res.status(500).send(err);
