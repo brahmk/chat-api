@@ -1,5 +1,26 @@
 import connectDb from "../connectDb.js";
 import admin from "firebase-admin";
+
+const imArray = [
+  "wow",
+  "cool",
+  "hey",
+  "what are you doing later?",
+  "im bored",
+  "g2g eat dinner",
+  "wanna ride bikes?",
+  "why is there nothing good on tv",
+  "hold on my mom needs to use the phone",
+  "brb",
+  "sup",
+  "lol",
+  "did you do the math homework?",
+];
+
+function randomIm(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 export function getMessages(req, res) {
   const db = connectDb();
   db.collection("messages")
@@ -26,9 +47,12 @@ export function postMessage(req, res) {
   const db = connectDb();
   let { message } = req.body;
   let now = admin.firestore.FieldValue.serverTimestamp();
+  let response = randomIm(imArray);
+
   let newMessage = {
     message,
     createdAt: now,
+    response,
   };
   db.collection("messages")
     .add(newMessage)
